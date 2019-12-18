@@ -1,0 +1,338 @@
+<p>create-asset works!</p>
+
+
+
+
+
+<div class="container">
+
+    <h1>Create Asset</h1>
+
+    <br />
+
+    <mat-radio-group aria-label="Select an option" (change)="onChangeForm($event)">
+        <mat-radio-button value="technology" checked>Technology</mat-radio-button>
+        <mat-radio-button value="vehicle">Vehicle</mat-radio-button>
+        <mat-radio-button value="house">House</mat-radio-button>
+    </mat-radio-group>
+
+
+    <mat-divider [inset]="true"></mat-divider>
+
+    <br />
+
+    <div *ngIf="technologyForm">
+        <form [formGroup]="technology" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput placeholder="Name" formControlName="name" />
+                        <mat-error *ngIf="f.name.errors?.required">Name is required</mat-error>
+                    </mat-form-field>
+
+
+                </div>
+
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <mat-select placeholder="Technology" formControlName="technology"
+                            (selectionChange)="technologyHandler()">
+                            <mat-option *ngFor="let techno of technologyArr" [value]="techno">{{techno | uppercase}}
+                            </mat-option>
+                            <mat-error *ngIf="f.technology.errors?.required">Technology is required</mat-error>
+                        </mat-select>
+
+
+
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput placeholder="Type OF Service" formControlName="typeOfService" />
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <mat-select placeholder="Brand" formControlName="brand" (selectionChange)="brandHandler()">
+                            <div *ngIf="this.pcShow">
+                                <mat-option *ngFor="let pc of pcArr" [value]="pc">{{pc | uppercase}}
+                                </mat-option>
+                            </div>
+                            <div *ngIf="this.laptopShow">
+                                <mat-option *ngFor="let laptop of laptopArr" [value]="laptop">{{laptop | uppercase}}
+                                </mat-option>
+                            </div>
+                            <div *ngIf="this.mobileShow">
+                                <mat-option *ngFor="let mobile of mobileArr" [value]="mobile">{{mobile | uppercase}}
+                                </mat-option>
+                            </div>
+                        </mat-select>
+                        <mat-error *ngIf="f.brand.errors?.required">Brand is required</mat-error>
+                        <mat-hint *ngIf="!this.technology.get('technology').value" align="end"> Please enter the
+                            technology
+                            first</mat-hint>
+
+
+                    </mat-form-field>
+
+                    <div *ngIf="brandShow">
+
+                        <mat-form-field class="tp-full-width">
+                            <input matInput placeholder="Please enter the other brand" formControlName="brand" />
+                            <!-- <mat-error *ngIf = "f.name.errors?.required">Please enter the other brand</mat-error> -->
+                        </mat-form-field>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+                        <mat-error *ngIf="f.description.errors?.required">Description is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput [matDatepicker]="picker" placeholder="Choose Start Date"
+                            formControlName="startDate" />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="f.startDate.errors?.required">Start date is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput [matDatepicker]="dateOfPostPicker" placeholder="Date Of Post"
+                            formControlName="dateOfPost" readonly />
+                        <mat-datepicker [startAt]="startDate" #dateOfPostPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input type="number" matInput placeholder="Contact" formControlName="contact" />
+                        <mat-error *ngIf="f.contact.errors?.required">Contact is required</mat-error>
+                        <mat-error *ngIf="f.contact.errors?.minlength">Minimum length showuld be 10</mat-error>
+                        <mat-error *ngIf="f.contact.errors?.maxlength">Maximum length should be 10</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <textarea matInput placeholder="Address" formControlName="address"></textarea>
+                        <mat-error *ngIf="f.address.errors?.required">Address is required</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput placeholder="Email" formControlName="email" />
+                        <mat-error *ngIf="f.email.errors?.required">Email is required</mat-error>
+                        <mat-error *ngIf="f.email.errors?.email">Valid email is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <textarea matInput placeholder="Comments" formControlName="comments"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col text-center">
+                    <button mat-raised-button class="mr-1" type="submit" (click)="onSubmit()">Submit</button>
+                    <button mat-raised-button type="submit" (click)="onSubmit()">Reset</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div *ngIf="vehicleForm">
+        <form [formGroup]="vehicle" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput placeholder="Name" formControlName="name" />
+                        <mat-error *ngIf="f.name.errors?.required">Name is required</mat-error>
+                    </mat-form-field>
+
+
+                </div>
+
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <mat-select placeholder="Technology" formControlName="technology"
+                            (selectionChange)="technologyHandler()">
+                            <mat-option *ngFor="let techno of technologyArr" [value]="techno">{{techno | uppercase}}
+                            </mat-option>
+                            <mat-error *ngIf="f.technology.errors?.required">Technology is required</mat-error>
+                        </mat-select>
+
+
+
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput placeholder="Type OF Service" formControlName="typeOfService" />
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <mat-select placeholder="Brand" formControlName="brand" (selectionChange)="brandHandler()">
+                            <div *ngIf="this.pcShow">
+                                <mat-option *ngFor="let pc of pcArr" [value]="pc">{{pc | uppercase}}
+                                </mat-option>
+                            </div>
+                            <div *ngIf="this.laptopShow">
+                                <mat-option *ngFor="let laptop of laptopArr" [value]="laptop">{{laptop | uppercase}}
+                                </mat-option>
+                            </div>
+                            <div *ngIf="this.mobileShow">
+                                <mat-option *ngFor="let mobile of mobileArr" [value]="mobile">{{mobile | uppercase}}
+                                </mat-option>
+                            </div>
+                        </mat-select>
+                        <mat-error *ngIf="f.brand.errors?.required">Brand is required</mat-error>
+                        <mat-hint *ngIf="!this.technology.get('technology').value" align="end"> Please enter the
+                            technology
+                            first</mat-hint>
+
+
+                    </mat-form-field>
+
+                    <div *ngIf="brandShow">
+
+                        <mat-form-field class="tp-full-width">
+                            <input matInput placeholder="Please enter the other brand" formControlName="brand" />
+                            <!-- <mat-error *ngIf = "f.name.errors?.required">Please enter the other brand</mat-error> -->
+                        </mat-form-field>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+                        <mat-error *ngIf="f.description.errors?.required">Description is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput [matDatepicker]="picker" placeholder="Choose Start Date"
+                            formControlName="startDate" />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="f.startDate.errors?.required">Start date is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput [matDatepicker]="dateOfPostPicker" placeholder="Date Of Post"
+                            formControlName="dateOfPost" readonly />
+                        <mat-datepicker [startAt]="startDate" #dateOfPostPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input type="number" matInput placeholder="Contact" formControlName="contact" />
+                        <mat-error *ngIf="f.contact.errors?.required">Contact is required</mat-error>
+                        <mat-error *ngIf="f.contact.errors?.minlength">Minimum length showuld be 10</mat-error>
+                        <mat-error *ngIf="f.contact.errors?.maxlength">Maximum length should be 10</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <textarea matInput placeholder="Address" formControlName="address"></textarea>
+                        <mat-error *ngIf="f.address.errors?.required">Address is required</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 col-lg-6">
+                    <mat-form-field class="tp-full-width">
+                        <input matInput placeholder="Email" formControlName="email" />
+                        <mat-error *ngIf="f.email.errors?.required">Email is required</mat-error>
+                        <mat-error *ngIf="f.email.errors?.email">Valid email is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field class="tp-full-width">
+                        <textarea matInput placeholder="Comments" formControlName="comments"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col text-center">
+                    <button mat-raised-button class="mr-1" type="submit" (click)="onSubmit()">Submit</button>
+                    <button mat-raised-button type="submit" (click)="onSubmit()">Reset</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
